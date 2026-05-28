@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-503ZSLGF0W"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-503ZSLGF0W');
+    function trackEvent(action, params) {
+      if (typeof gtag === 'function') gtag('event', action, params || {});
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Resume Builder – Create a Professional CV Online | ResumeBuilder</title>
+  <meta name="description" content="Build a professional resume online for free. Choose from multiple templates, add your experience and skills, then download as PDF. No sign-up required.">
+  <meta name="keywords" content="resume builder, free resume maker, CV generator, resume template, online resume, professional resume">
+  <meta property="og:title" content="Free Resume Builder – Create a Professional CV Online">
+  <meta property="og:description" content="Build a free professional resume online. Multiple templates, PDF download. No sign-up.">
+  <meta property="og:url" content="https://resume-builder.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ResumeBuilder">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free Resume Builder">
+  <meta name="twitter:description" content="Build a professional resume for free. PDF download. No sign-up.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="canonical" href="https://resume-builder.vercel.app/">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif; background: #f0fdf4; color: #1e293b; min-height: 100vh; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+    .header { text-align: center; padding: 32px 20px; background: linear-gradient(135deg, #059669, #10b981); border-radius: 16px; margin-bottom: 20px; color: white; }
+    .header h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+    .header p { font-size: 14px; opacity: 0.9; }
+    .layout { display: flex; gap: 20px; }
+    .sidebar { width: 360px; flex-shrink: 0; }
+    .preview-area { flex: 1; }
+    .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .card h3 { font-size: 14px; margin-bottom: 12px; color: #475569; text-transform: uppercase; letter-spacing: 1px; }
+    .form-group { margin-bottom: 10px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 600; color: #64748b; margin-bottom: 3px; }
+    .form-group input, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px; outline: none; }
+    .form-group input:focus, .form-group textarea:focus { border-color: #059669; }
+    .form-group textarea { min-height: 60px; resize: vertical; font-family: inherit; }
+    .btn { padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+    .btn-primary { background: #059669; color: white; width: 100%; }
+    .btn-primary:hover { background: #047857; }
+    .btn-secondary { background: #6366f1; color: white; }
+    .btn-secondary:hover { background: #4f46e5; }
+    .btn-sm { padding: 6px 12px; font-size: 12px; }
+    .btn-outline { background: transparent; border: 2px solid #e2e8f0; color: #64748b; }
+    .btn-outline:hover { border-color: #059669; color: #059669; }
+    .btn-danger { background: #ef4444; color: white; }
+    .btn-danger:hover { background: #dc2626; }
+    .entry { background: #f8fafc; border-radius: 8px; padding: 12px; margin-bottom: 10px; position: relative; }
+    .entry-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .entry-title { font-size: 13px; font-weight: 600; }
+    .entry-del { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 16px; padding: 0 4px; }
+
+    /* Template Selector */
+    .templates { display: flex; gap: 8px; margin-bottom: 16px; }
+    .template-card { width: 80px; height: 100px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #64748b; transition: all 0.15s; }
+    .template-card.active { border-color: #059669; background: #f0fdf4; color: #059669; }
+    .template-card:hover { border-color: #059669; }
+
+    /* Preview */
+    .resume-preview { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 32px; min-height: 600px; font-size: 12px; line-height: 1.5; }
+    .preview-name { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+    .preview-title { font-size: 14px; color: #64748b; margin-bottom: 8px; }
+    .preview-contact { font-size: 11px; color: #64748b; margin-bottom: 16px; }
+    .preview-section-title { font-size: 13px; font-weight: 600; border-bottom: 2px solid #059669; padding-bottom: 4px; margin: 14px 0 8px; text-transform: uppercase; letter-spacing: 1px; }
+    .preview-item-title { font-weight: 600; font-size: 12px; }
+    .preview-item-sub { font-size: 11px; color: #64748b; }
+    .preview-skills { display: flex; flex-wrap: wrap; gap: 4px; }
+    .preview-skill { background: #f0fdf4; color: #059669; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+
+    .hidden { display: none; }
+    .tagline { text-align: center; font-size: 12px; color: #94a3b8; padding: 16px; }
+    .tagline a { color: #059669; text-decoration: none; }
+
+    @media (max-width: 768px) { .layout { flex-direction: column; } .sidebar { width: 100%; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📄 Resume Builder</h1>
+      <p>Create a professional resume in minutes. Free, no sign-up.</p>
+    </div>
+
+    <div class="layout">
+      <!-- Sidebar: Form -->
+      <div class="sidebar">
+        <div class="card">
+          <h3>📐 Choose Template</h3>
+          <div class="templates">
+            <div class="template-card active" data-template="modern">Modern</div>
+            <div class="template-card" data-template="classic">Classic</div>
+            <div class="template-card" data-template="minimal">Minimal</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>👤 Personal Info</h3>
+          <div class="form-group"><label>Full Name</label><input type="text" id="fullName" placeholder="e.g. John Smith" oninput="updatePreview()"></div>
+          <div class="form-group"><label>Job Title</label><input type="text" id="jobTitle" placeholder="e.g. Software Engineer" oninput="updatePreview()"></div>
+          <div class="form-group"><label>Email</label><input type="text" id="email" placeholder="john@example.com" oninput="updatePreview()"></div>
+          <div class="form-group"><label>Phone</label><input type="text" id="phone" placeholder="+1 555-1234" oninput="updatePreview()"></div>
+          <div class="form-group"><label>Location</label><input type="text" id="location" placeholder="e.g. San Francisco, CA" oninput="updatePreview()"></div>
+          <div class="form-group"><label>Summary</label><textarea id="summary" placeholder="Brief professional summary..." oninput="updatePreview()"></textarea></div>
+        </div>
+
+        <div class="card">
+          <h3>💼 Experience <button class="btn btn-sm btn-outline" onclick="addExperience()" style="float:right;">+ Add</button></h3>
+          <div id="experienceList">
+            <div class="entry" data-idx="0">
+              <div class="entry-header"><span class="entry-title">Experience 1</span></div>
+              <div class="form-group"><input type="text" class="exp-company" placeholder="Company" oninput="updatePreview()"></div>
+              <div class="form-group"><input type="text" class="exp-position" placeholder="Position" oninput="updatePreview()"></div>
+              <div class="form-row" style="display:flex;gap:8px;">
+                <div class="form-group" style="flex:1;"><input type="text" class="exp-start" placeholder="Start (e.g. 2020)" oninput="updatePreview()"></div>
+                <div class="form-group" style="flex:1;"><input type="text" class="exp-end" placeholder="End (e.g. 2023)" oninput="updatePreview()"></div>
+              </div>
+              <div class="form-group"><textarea class="exp-desc" placeholder="Describe your responsibilities..." oninput="updatePreview()" style="min-height:50px;"></textarea></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>🎓 Education <button class="btn btn-sm btn-outline" onclick="addEducation()" style="float:right;">+ Add</button></h3>
+          <div id="educationList">
+            <div class="entry" data-idx="0">
+              <div class="entry-header"><span class="entry-title">Education 1</span></div>
+              <div class="form-group"><input type="text" class="edu-school" placeholder="School/University" oninput="updatePreview()"></div>
+              <div class="form-group"><input type="text" class="edu-degree" placeholder="Degree" oninput="updatePreview()"></div>
+              <div class="form-group"><input type="text" class="edu-year" placeholder="Year (e.g. 2020-2024)" oninput="updatePreview()"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>⚡ Skills <button class="btn btn-sm btn-outline" onclick="addSkill()" style="float:right;">+ Add</button></h3>
+          <div id="skillsList">
+            <div class="entry" data-idx="0">
+              <div class="form-group"><input type="text" class="skill-input" placeholder="e.g. JavaScript" oninput="updatePreview()"></div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
+      </div>
+
+      <!-- Preview -->
+      <div class="preview-area">
+        <div class="card">
+          <h3>📱 Live Preview</h3>
+          <div class="resume-preview" id="resumePreview">
+            <div class="preview-name">Your Name</div>
+            <div class="preview-title">Job Title</div>
+            <div class="preview-contact">email@example.com | +1 555-0000 | City, State</div>
+            <div class="preview-section-title">Professional Summary</div>
+            <p style="font-size:11px;color:#64748b;">Your summary will appear here...</p>
+            <div class="preview-section-title">Experience</div>
+            <p style="font-size:11px;color:#64748b;">Add your experience to see it here...</p>
+            <div class="preview-section-title">Education</div>
+            <p style="font-size:11px;color:#64748b;">Add your education to see it here...</p>
+            <div class="preview-section-title">Skills</div>
+            <p style="font-size:11px;color:#64748b;">Add your skills to see them here...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tagline">
+      <a href="https://resume-builder.vercel.app/">ResumeBuilder</a> — Free resume builder by JCS Labs
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    let expCount = 1, eduCount = 1, skillCount = 1;
+    let currentTemplate = 'modern';
+
+    // Template selection
+    document.querySelectorAll('.template-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        currentTemplate = card.dataset.template;
+        trackEvent('select_template', { tool: 'resume_builder', template: currentTemplate });
+        updatePreview();
+      });
+    });
+
+    // Add Experience
+    function addExperience() {
+      const list = document.getElementById('experienceList');
+      const div = document.createElement('div');
+      div.className = 'entry';
+      div.dataset.idx = expCount;
+      div.innerHTML = `
+        <div class="entry-header"><span class="entry-title">Experience ${expCount + 1}</span><button class="entry-del" onclick="this.parentElement.parentElement.remove(); updatePreview();">×</button></div>
+        <div class="form-group"><input type="text" class="exp-company" placeholder="Company" oninput="updatePreview()"></div>
+        <div class="form-group"><input type="text" class="exp-position" placeholder="Position" oninput="updatePreview()"></div>
+        <div style="display:flex;gap:8px;">
+          <div class="form-group" style="flex:1;"><input type="text" class="exp-start" placeholder="Start" oninput="updatePreview()"></div>
+          <div class="form-group" style="flex:1;"><input type="text" class="exp-end" placeholder="End" oninput="updatePreview()"></div>
+        </div>
+        <div class="form-group"><textarea class="exp-desc" placeholder="Description..." oninput="updatePreview()" style="min-height:50px;"></textarea></div>
+      `;
+      list.appendChild(div);
+      expCount++;
+      updatePreview();
+      trackEvent('add_section', { tool: 'resume_builder', section: 'experience' });
+    }
+
+    function addEducation() {
+      const list = document.getElementById('educationList');
+      const div = document.createElement('div');
+      div.className = 'entry';
+      div.dataset.idx = eduCount;
+      div.innerHTML = `
+        <div class="entry-header"><span class="entry-title">Education ${eduCount + 1}</span><button class="entry-del" onclick="this.parentElement.parentElement.remove(); updatePreview();">×</button></div>
+        <div class="form-group"><input type="text" class="edu-school" placeholder="School" oninput="updatePreview()"></div>
+        <div class="form-group"><input type="text" class="edu-degree" placeholder="Degree" oninput="updatePreview()"></div>
+        <div class="form-group"><input type="text" class="edu-year" placeholder="Year" oninput="updatePreview()"></div>
+      `;
+      list.appendChild(div);
+      eduCount++;
+      updatePreview();
+      trackEvent('add_section', { tool: 'resume_builder', section: 'education' });
+    }
+
+    function addSkill() {
+      const list = document.getElementById('skillsList');
+      const div = document.createElement('div');
+      div.className = 'entry';
+      div.dataset.idx = skillCount;
+      div.innerHTML = `
+        <div class="entry-header"><span class="entry-title">Skill ${skillCount + 1}</span><button class="entry-del" onclick="this.parentElement.parentElement.remove(); updatePreview();">×</button></div>
+        <div class="form-group"><input type="text" class="skill-input" placeholder="e.g. Python" oninput="updatePreview()"></div>
+      `;
+      list.appendChild(div);
+      skillCount++;
+      updatePreview();
+      trackEvent('add_section', { tool: 'resume_builder', section: 'skill' });
+    }
+
+    // ─── Live Preview ──────────────────────────────────────
+    function updatePreview() {
+      const name = document.getElementById('fullName').value || 'Your Name';
+      const title = document.getElementById('jobTitle').value || 'Job Title';
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const location = document.getElementById('location').value;
+      const summary = document.getElementById('summary').value;
+
+      const preview = document.getElementById('resumePreview');
+      
+      // Contact
+      let contact = [email, phone, location].filter(Boolean).join(' | ');
+
+      // Experience
+      let expHtml = '';
+      document.querySelectorAll('#experienceList .entry').forEach(entry => {
+        const company = entry.querySelector('.exp-company')?.value || '';
+        const position = entry.querySelector('.exp-position')?.value || '';
+        const start = entry.querySelector('.exp-start')?.value || '';
+        const end = entry.querySelector('.exp-end')?.value || '';
+        const desc = entry.querySelector('.exp-desc')?.value || '';
+        if (company || position) {
+          expHtml += `<div class="preview-item-title">${position}${company ? ' @ ' + company : ''}</div>`;
+          if (start || end) expHtml += `<div class="preview-item-sub">${start} – ${end}</div>`;
+          if (desc) expHtml += `<p style="font-size:11px;color:#475569;margin:4px 0 10px;">${desc}</p>`;
+        }
+      });
+
+      // Education
+      let eduHtml = '';
+      document.querySelectorAll('#educationList .entry').forEach(entry => {
+        const school = entry.querySelector('.edu-school')?.value || '';
+        const degree = entry.querySelector('.edu-degree')?.value || '';
+        const year = entry.querySelector('.edu-year')?.value || '';
+        if (school || degree) {
+          eduHtml += `<div class="preview-item-title">${degree ? degree + ' – ' : ''}${school}</div>`;
+          if (year) eduHtml += `<div class="preview-item-sub">${year}</div>`;
+        }
+      });
+
+      // Skills
+      let skills = [];
+      document.querySelectorAll('.skill-input').forEach(inp => {
+        if (inp.value.trim()) skills.push(inp.value.trim());
+      });
+
+      // Template accent color
+      const accentColor = currentTemplate === 'modern' ? '#059669' : currentTemplate === 'classic' ? '#1e40af' : '#475569';
+
+      preview.innerHTML = `
+        <div class="preview-name" style="color:${accentColor}">${escapeHtml(name)}</div>
+        <div class="preview-title">${escapeHtml(title)}</div>
+        <div class="preview-contact">${escapeHtml(contact)}</div>
+        ${summary ? `<div class="preview-section-title" style="border-color:${accentColor}">Professional Summary</div><p style="font-size:11px;color:#475569;margin-bottom:8px;">${escapeHtml(summary)}</p>` : ''}
+        ${expHtml ? `<div class="preview-section-title" style="border-color:${accentColor}">Experience</div>${expHtml}` : ''}
+        ${eduHtml ? `<div class="preview-section-title" style="border-color:${accentColor}">Education</div>${eduHtml}` : ''}
+        ${skills.length ? `<div class="preview-section-title" style="border-color:${accentColor}">Skills</div><div class="preview-skills">${skills.map(s => `<span class="preview-skill">${escapeHtml(s)}</span>`).join('')}</div>` : ''}
+      `;
+    }
+
+    function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+
+    // ─── Download PDF ──────────────────────────────────────
+    function downloadPDF() {
+      trackEvent('download_pdf', { tool: 'resume_builder', template: currentTemplate });
+      const preview = document.getElementById('resumePreview');
+      
+      // Add print styling
+      const style = document.createElement('style');
+      style.id = 'print-style';
+      style.textContent = `
+        .resume-preview { padding: 32px !important; background: white !important; }
+      `;
+      document.head.appendChild(style);
+
+      html2canvas(preview, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: false
+      }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfW = pdf.internal.pageSize.getWidth();
+        const pdfH = pdf.internal.pageSize.getHeight();
+        const imgW = canvas.width;
+        const imgH = canvas.height;
+        const ratio = Math.min(pdfW / imgW, pdfH / imgH);
+        const w = imgW * ratio;
+        const h = imgH * ratio;
+        const x = (pdfW - w) / 2;
+        const y = (pdfH - h) / 2;
+        
+        pdf.addImage(imgData, 'PNG', x, y, w, h);
+        pdf.save('resume.pdf');
+        
+        document.getElementById('print-style')?.remove();
+        trackEvent('download_success', { tool: 'resume_builder', template: currentTemplate });
+      }).catch(err => {
+        alert('PDF generation failed. Try a different browser.');
+        document.getElementById('print-style')?.remove();
+        trackEvent('download_fail', { tool: 'resume_builder', error: err.message });
+      });
+    }
+  </script>
+</body>
+</html>
